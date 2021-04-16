@@ -1,0 +1,33 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: One PI Cloudformation template for creating S3 bucket
+
+Metadata:
+  'AWS::CloudFormation::Interface':
+      ParameterGroups:
+      -
+        Label:
+          default: Common security parameters
+        Parameters:
+          - IamPermissionsBoundary
+          - IamPath
+Parameters:
+  S3BucketName:
+    Type: String
+    Description: "S3 bucket to create."
+    AllowedPattern: "[a-zA-Z][a-zA-Z0-9_-]*"
+  
+  IamPath:
+    Type: String
+    Default: "/delegatedadmin/developer/"
+    Description: "The IAM path allocated by CMS Cloud Admin to the One PI project"
+  
+  IamPermissionsBoundary:
+    Type: String
+    Default: "arn:aws:iam::<your acct number>:policy/cms-cloud-admin/developer-boundary-policy"
+    Description: "The permission boundary allocated by CMS Cloud Admin to the One PI project for a given environment"
+    
+Resources:
+  OnePIS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref S3BucketName
